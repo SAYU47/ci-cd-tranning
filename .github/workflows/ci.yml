@@ -32,7 +32,7 @@ jobs:
       - name: Build Docker image
         run: docker build -t devops-counter-app:1.0 ./app
       
-            - name: Create CI database password
+      - name: Create CI database password
         run: |
           mkdir -p secrets
           echo "ci_test_password" > secrets/db_password.txt
