@@ -59,7 +59,7 @@ def index():
         <title>Docker Final Project</title>
       </head>
       <body>
-        <h1>Docker Final Project работает!</h1>
+        <h1>Автоматический CD работает!!</h1>
         <p>Количество посещений: {visits}</p>
         <p>Nginx → Python → PostgreSQL</p>
       </body>
