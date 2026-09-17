@@ -59,13 +59,13 @@ jobs:
           
       - name: Tag Docker image
         run: |
-        docker tag devops-counter-app:1.0 $IMAGE_NAME:${{ github.sha }}
-        docker tag devops-counter-app:1.0 $IMAGE_NAME:latest
+         docker tag devops-counter-app:1.0 $IMAGE_NAME:${{ github.sha }}
+         docker tag devops-counter-app:1.0 $IMAGE_NAME:latest
 
       - name: Push Docker image
         run: |
-        docker push $IMAGE_NAME:${{ github.sha }}
-        docker push $IMAGE_NAME:latest         
+         docker push $IMAGE_NAME:${{ github.sha }}
+         docker push $IMAGE_NAME:latest         
 
       - name: Show container status
         if: always()
