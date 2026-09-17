@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,6 +46,23 @@ jobs:
 
       - name: Test health endpoint
         run: curl --fail --show-error http://127.0.0.1:8080/health
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   
+          
+      - name: Tag Docker image
+        run: |
+          docker tag devops-counter-app:1.0 ghcr.io/${{ github.repository_owner }}/devops-counter-app:${{ github.sha }}
+          docker tag devops-counter-app:1.0 ghcr.io/${{ github.repository_owner }}/devops-counter-app:latest 
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/devops-counter-app:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner }}/devops-counter-app:latest           
 
       - name: Show container status
         if: always()
