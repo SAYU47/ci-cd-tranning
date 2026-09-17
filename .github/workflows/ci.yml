@@ -52,17 +52,20 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}   
+          password: ${{ secrets.GITHUB_TOKEN }}  
+
+      - name: Set image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/devops-counter-app" >> "$GITHUB_ENV" 
           
       - name: Tag Docker image
         run: |
-          docker tag devops-counter-app:1.0 ghcr.io/${{ github.repository_owner }}/devops-counter-app:${{ github.sha }}
-          docker tag devops-counter-app:1.0 ghcr.io/${{ github.repository_owner }}/devops-counter-app:latest 
+        docker tag devops-counter-app:1.0 $IMAGE_NAME:${{ github.sha }}
+        docker tag devops-counter-app:1.0 $IMAGE_NAME:latest
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/devops-counter-app:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository_owner }}/devops-counter-app:latest           
+        docker push $IMAGE_NAME:${{ github.sha }}
+        docker push $IMAGE_NAME:latest         
 
       - name: Show container status
         if: always()
