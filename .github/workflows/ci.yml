@@ -78,3 +78,22 @@ jobs:
       - name: Stop application stack
         if: always()
         run: docker compose down -v
+        
+  deploy:
+    needs: build
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Deploy to Ubuntu
+        working-directory: /opt/devops-counter
+        env:
+          APP_VERSION: ${{ github.sha }}
+        run: |
+          docker compose -f compose.prod.yaml pull app
+          docker compose -f compose.prod.yaml up -d
+          docker compose -f compose.prod.yaml ps
+          curl --fail \
+            --retry 12 \
+            --retry-delay 5 \
+            --retry-connrefused \
+            http://127.0.0.1:8080/health        
