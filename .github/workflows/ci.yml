@@ -4,28 +4,30 @@ on:
   push:
     branches:
       - master
+
 jobs:
-test:
-  runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Download repository
-      uses: actions/checkout@v7
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v7
 
-    - name: Set up Python
-      uses: actions/setup-python@v7
-      with:
-        python-version: "3.13"
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
 
-    - name: Check Python syntax
-      run: python -m py_compile app/app.py
+      - name: Check Python syntax
+        run: python -m py_compile app/app.py
 
   build:
     needs: test
     runs-on: ubuntu-latest
-  steps:
-    - name: Download repository
-      uses: actions/checkout@v7
 
-    - name: Build Docker image
-      run: docker build -t myapp:test ./app
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v7
+
+      - name: Build Docker image
+        run: docker build -t myapp:test ./app
