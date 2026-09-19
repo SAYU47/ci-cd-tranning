@@ -61,7 +61,7 @@ def index():
       <body>
         <h1>Автоматический деплой работает!</h1>
         <p>Количество посещений: {visits}</p>
-        <p>Nginx → Python → PostgreSQL</p>
+       <p>Release: rollback-test-v2</p>
       </body>
     </html>
     """
